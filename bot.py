@@ -396,78 +396,9 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data.clear()
     await update.message.reply_text(
         "❌ *Cancelled.*\n\n/start se dobara shuru karo.",
-        parse_mode="Markdown",
-        reply_markup=main_keyboard()
-    )
-    return ConversationHandler.END
-
-
-async def plans_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """/plans — saare plans dikhao"""
-    text = "📋 *Hamare Plans:*\n\n"
-    for p in PLANS.values():
-        features = "\n".join([f"   ✔️ {f}" for f in p["features"]])
-        text += (
-            f"{p['emoji']} *{p['name']}*\n"
-            f"🖼 {p['pictures']} | 💰 ₹{p['price']}\n"
-            f"{features}\n\n"
-            f"━━━━━━━━━━━━━━━━━━━━\n\n"
-        )
-    text += "👇 Niche buttons se plan choose karo:"
-    await update.message.reply_text(text, parse_mode="Markdown", reply_markup=main_keyboard())
-
-
-async def change_plan(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """/change — plan badlo, flow reset karo"""
-    context.user_data.clear()
-    await update.message.reply_text(
-        "🔄 *Plan Change*\n\n"
-        "Purana selection reset ho gaya.\n"
-        "Niche se naya plan choose karo:",
-        parse_mode="Markdown",
-        reply_markup=main_keyboard()
-    )
-    return ConversationHandler.END
-
-
-async def support_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """/support — contact info"""
-    await update.message.reply_text(
-        "📞 *Support*\n"
-        "━━━━━━━━━━━━━━━━━━━━\n\n"
-        "Kisi bhi problem ke liye:\n"
-        "👤 @YourUsername pe message karo\n\n"
-        "⏰ Response time: 1-2 ghante",
         parse_mode="Markdown"
     )
-
-
-async def about_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    """/about — service info"""
-    await update.message.reply_text(
-        "ℹ️ *About Us*\n"
-        "━━━━━━━━━━━━━━━━━━━━\n\n"
-        "🎨 Professional photo editing service\n"
-        "⚡ 24hr delivery guarantee\n"
-        "💯 100% satisfaction\n"
-        "🔒 Secure UPI payment\n\n"
-        "📸 3 se 15+ photos edit karte hain\n"
-        "✨ Color correction, background remove aur bahut kuch",
-        parse_mode="Markdown"
-    )
-
-
-async def set_bot_commands(app):
-    """Bot mein / likhte hi suggestions dikhao"""
-    from telegram import BotCommand
-    await app.bot.set_my_commands([
-        BotCommand("start",   "Bot shuru karo"),
-        BotCommand("plans",   "Saare plans dekho"),
-        BotCommand("change",  "Plan badlo"),
-        BotCommand("support", "Help lो"),
-        BotCommand("about",   "Hamare baare mein"),
-        BotCommand("cancel",  "Current order cancel karo"),
-    ])
+    return ConversationHandler.END
 
 
 # ── Main ─────────────────────────────────────────────────
@@ -486,6 +417,7 @@ def main():
         states={
             WAITING_REF: [
                 MessageHandler(filters.TEXT & ~filters.COMMAND, receive_ref),
+                # Non-text bhi receive_ref handle karega aur guide karega
                 MessageHandler(
                     filters.PHOTO | filters.Document.ALL |
                     filters.Sticker.ALL | filters.VOICE | filters.VIDEO,
@@ -494,6 +426,7 @@ def main():
             ],
             WAITING_SCREENSHOT: [
                 MessageHandler(filters.PHOTO, receive_screenshot),
+                # Wrong type bhi receive_screenshot handle karega
                 MessageHandler(
                     filters.Document.ALL | filters.Sticker.ALL |
                     filters.VOICE | filters.VIDEO |
@@ -504,25 +437,15 @@ def main():
         },
         fallbacks=[
             CommandHandler("cancel", cancel),
-            CommandHandler("change", change_plan),
-            CommandHandler("start",  start),
+            CommandHandler("start", start),  # /start se mid-flow reset
         ],
         allow_reentry=True
     )
 
-    # Commands register karo
-    app.add_handler(CommandHandler("start",   start))
-    app.add_handler(CommandHandler("plans",   plans_command))
-    app.add_handler(CommandHandler("change",  change_plan))
-    app.add_handler(CommandHandler("support", support_command))
-    app.add_handler(CommandHandler("about",   about_command))
+    app.add_handler(CommandHandler("start", start))
     app.add_handler(conv)
     app.add_handler(CallbackQueryHandler(admin_action, pattern="^(approve|reject)_"))
     app.add_handler(MessageHandler(filters.ALL, unknown_outside_conv))
-
-    # / likhte hi suggestions set karo
-    import asyncio
-    asyncio.get_event_loop().run_until_complete(set_bot_commands(app))
 
     print("Bot chal raha hai...")
     app.run_polling()
