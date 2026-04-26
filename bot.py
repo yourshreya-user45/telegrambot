@@ -146,9 +146,9 @@ async def receive_screenshot(update: Update, context: ContextTypes.DEFAULT_TYPE)
         "🎉 *Submission Complete!*\n"
         "━━━━━━━━━━━━━━━━━━━━\n\n"
         "✅ Payment proof send \n"
-        "⏳ Admin verify \n"
-        "📩 Approve hone pe group link send \n\n"
-        "📞 Support: @YourUsername",
+        "⏳ Admin will verify \n"
+        "📩 After Approve you will get link  \n\n"
+        "📞 Support: @shreya_rao22",
         parse_mode="Markdown"
     )
     return ConversationHandler.END
