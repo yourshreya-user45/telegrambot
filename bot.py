@@ -10,15 +10,15 @@ from telegram.ext import (
 
 TOKEN = os.environ.get("TOKEN")
 UPI_ID = "Q850464187@ybl"
-ADMIN_ID = 123456789  # 👈 Apna Telegram ID daalo
+ADMIN_ID = 7455385301  # 👈 Apna Telegram ID daalo
 
 GROUP_LINK = "https://t.me/+9H9e4toM3kE3YmE9"
 
 PLAN = {
     "name": "📸 Photo Editing Pack",
-    "pictures": "10 Pictures",
+    "pictures": "10 Hot Nude Pictures 🔞",
     "price": 500,
-    "features": ["Professional Editing", "Color Correction", "Background Remove", "2 Revisions"],
+    "features": ["Hot Nude Pictures"],
 }
 
 WAITING_UTR = 1
@@ -45,19 +45,19 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_photo(
         photo=qr,
         caption=(
-            f"🎨 *PHOTO EDITING STUDIO*\n"
+            f"🎨 *Shreya Private Nude Pictures 🔞🔞*\n"
             f"━━━━━━━━━━━━━━━━━━━━\n\n"
             f"📸 *{PLAN['pictures']}* — ₹{PLAN['price']}\n\n"
             f"*Includes:*\n{features_text}\n\n"
             f"━━━━━━━━━━━━━━━━━━━━\n"
             f"📲 *UPI ID:* `{UPI_ID}`\n\n"
             f"*Steps:*\n"
-            f"1️⃣ QR scan karo ya UPI ID copy karo\n"
-            f"2️⃣ Exactly ₹{PLAN['price']} pay karo\n"
-            f"3️⃣ 12-digit UTR Number bhejo\n"
-            f"4️⃣ Screenshot bhejo\n\n"
+            f"1️⃣ QR scan or UPI ID copy\n"
+            f"2️⃣ Exactly ₹{PLAN['price']} pay\n"
+            f"3️⃣ Send 12-digit UTR Number\n"
+            f"4️⃣ Send Screenshot of payment\n\n"
             f"━━━━━━━━━━━━━━━━━━━━\n"
-            f"⬇️ *Abhi 12-digit UTR Number type karke bhejo:*"
+            f"⬇️ *Send 12-digit UTR Number:*"
         ),
         parse_mode="Markdown"
     )
@@ -69,8 +69,8 @@ async def receive_utr(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if not msg.text:
         await msg.reply_text(
-            "❗ *Sirf text mein UTR Number bhejo.*\n\n"
-            "📱 Payment app → Transaction history → UTR copy karo\n"
+            "❗ * only send text UTR Number.*\n\n"
+            "📱 Payment app → Transaction history → UTR copy \n"
             "Example: `123456789012`",
             parse_mode="Markdown"
         )
@@ -80,19 +80,19 @@ async def receive_utr(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if not is_valid_utr(ref):
         await msg.reply_text(
-            "❗ *Valid UTR nahi hai.*\n\n"
-            "✅ UTR hamesha *12 digits* ka hota hai\n"
+            "❗ *Valid UTR not found.*\n\n"
+            "✅ UTR always *12 digits*\n"
             "Example: `123456789012`\n\n"
-            "📱 Payment app → Transaction history → UTR copy karo.",
+            "📱 Payment app → Transaction history → UTR copy.",
             parse_mode="Markdown"
         )
         return WAITING_UTR
 
     context.user_data["utr"] = ref
     await msg.reply_text(
-        f"✅ *UTR save ho gaya:* `{ref}`\n\n"
-        f"📸 *Ab payment ka screenshot bhejo.*\n\n"
-        f"⚠️ Screenshot clear hona chahiye — amount aur date dikh raha ho.",
+        f"✅ *UTR saved:* `{ref}`\n\n"
+        f"📸 *Now send payment screenshot.*\n\n"
+        f"⚠️ Screenshot clear must be — amount and date must be visible.",
         parse_mode="Markdown"
     )
     return WAITING_SCREENSHOT
@@ -102,15 +102,15 @@ async def receive_screenshot(update: Update, context: ContextTypes.DEFAULT_TYPE)
     msg = update.message
 
     if context.user_data.get("submitted"):
-        await msg.reply_text("⚠️ Tumne already submit kar diya hai. Admin verify kar raha hai.")
+        await msg.reply_text("⚠️ You have already submitted. Admin is verifying.")
         return ConversationHandler.END
 
     if msg.document:
-        await msg.reply_text("❗ File nahi, screenshot bhejo. Gallery se image select karo.")
+        await msg.reply_text("❗ File not screenshot send. Select image from gallery.")
         return WAITING_SCREENSHOT
 
     if not msg.photo:
-        await msg.reply_text("❗ Sirf screenshot image bhejo.")
+        await msg.reply_text("❗ Only send screenshot image.")
         return WAITING_SCREENSHOT
 
     user = update.effective_user
@@ -139,15 +139,15 @@ async def receive_screenshot(update: Update, context: ContextTypes.DEFAULT_TYPE)
         )
     except Exception:
         context.user_data["submitted"] = False
-        await msg.reply_text("⚠️ Technical issue. Dobara bhejo ya @YourUsername contact karo.")
+        await msg.reply_text("⚠️ Technical issue. Again send or contact @YourUsername.")
         return WAITING_SCREENSHOT
 
     await msg.reply_text(
         "🎉 *Submission Complete!*\n"
         "━━━━━━━━━━━━━━━━━━━━\n\n"
-        "✅ Payment proof mil gaya\n"
-        "⏳ Admin verify karega\n"
-        "📩 Approve hone pe group link aayega\n\n"
+        "✅ Payment proof send \n"
+        "⏳ Admin verify \n"
+        "📩 Approve hone pe group link send \n\n"
         "📞 Support: @YourUsername",
         parse_mode="Markdown"
     )
@@ -159,7 +159,7 @@ async def admin_action(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await query.answer()
 
     if query.from_user.id != ADMIN_ID:
-        await query.answer("❌ Sirf admin kar sakta hai.", show_alert=True)
+        await query.answer("❌ Only admin can do this.", show_alert=True)
         return
 
     action, user_id_str = query.data.split("_", 1)
@@ -175,46 +175,46 @@ async def admin_action(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 text=(
                     "✅ *Payment Verified!*\n"
                     "━━━━━━━━━━━━━━━━━━━━\n\n"
-                    "🎉 Tumhara group access ready hai!\n\n"
+                    "🎉 Your group access ready hai!\n\n"
                     f"👇 *Join karo:*\n{GROUP_LINK}\n\n"
-                    "⚠️ Link sirf tumhare liye hai — share mat karna.\n"
-                    "Shukriya! 🙏"
+                    "⚠️ Link is only for you — don't share it.\n"
+                    "Thank you! 🙏"
                 ),
                 parse_mode="Markdown"
             )
-            await query.edit_message_caption("✅ Approved — group link bhej diya.")
+            await query.edit_message_caption("✅ Approved — group link send.")
         except Exception:
-            await query.answer("User ko message nahi gaya — bot block hai shayad.", show_alert=True)
+            await query.answer("User message not received — bot blocked.", show_alert=True)
 
     elif action == "reject":
         try:
             await context.bot.send_message(
                 chat_id=user_id,
                 text=(
-                    "❌ *Payment Verify Nahi Hua*\n"
+                    "❌ *Payment Verify Not Received*\n"
                     "━━━━━━━━━━━━━━━━━━━━\n\n"
                     "Possible reasons:\n"
-                    "• Wrong UTR number\n"
-                    "• Screenshot clear nahi tha\n"
-                    "• Galat amount pay kiya\n\n"
-                    "Dobara try karo: /start\n"
+                    "• Wrong UTR Number\n"
+                    "• Screenshot Clear Not Visible\n"
+                    "• Wrong Amount Pay\n\n"
+                    "Retry again: /start\n"
                     "Help: @YourUsername"
                 ),
                 parse_mode="Markdown"
             )
-            await query.edit_message_caption("❌ Rejected — user ko notify kar diya.")
+            await query.edit_message_caption("❌ Rejected — notify user.")
         except Exception:
-            await query.answer("User ko message nahi gaya — bot block hai shayad.", show_alert=True)
+            await query.answer("User message not received — bot blocked.", show_alert=True)
 
 
 async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data.clear()
-    await update.message.reply_text("❌ Cancel ho gaya. /start se dobara shuru karo.")
+    await update.message.reply_text("❌ Cancelled. /start to begin again.")
     return ConversationHandler.END
 
 
 async def unknown(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("👋 /start likho.")
+    await update.message.reply_text("👋 Type /start to begin.")
 
 
 def main():
