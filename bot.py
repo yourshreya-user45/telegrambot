@@ -19,7 +19,7 @@ WAITING_SCREENSHOT = 2
 PLANS = {
     "basic": {
         "emoji": "❤️‍🔥",
-        "name": "Basic Pack",
+        "name": "❤️‍🔥",
         "price": 299,
         "pictures": "3 Hot Pictures 💦",
         "talk": "10 Min Chat",
@@ -27,15 +27,15 @@ PLANS = {
     },
     "pro": {
         "emoji": "🥵",
-        "name": "Pro Pack",
+        "name": "🥵",
         "price": 599,
         "pictures": "5 Hot Pictures 💦",
         "talk": "30 Min Chat",
         "group": "https://t.me/+Aug56KiJA9EwZTdl",    # 👈 Pro plan ka link
     },
     "vip": {
-        "emoji": "🥵💦",
-        "name": "VIP Pack",
+        "emoji": "💦",
+        "name": "💦",
         "price": 1499,
         "pictures": "10 Hot Pictures 💦",
         "talk": "1 Hour Chat",
