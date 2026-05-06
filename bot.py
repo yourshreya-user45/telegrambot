@@ -38,7 +38,7 @@ PLANS = {
         "name": "💦",
         "price": 1499,
         "pictures": "10 Hot Pictures",
-        "talk": "1 Hour Chat",
+        "talk": "60 Min Chat",
         "group": "https://t.me/+VipDummyLink789",    # 👈 VIP plan ka link
     },
 }
